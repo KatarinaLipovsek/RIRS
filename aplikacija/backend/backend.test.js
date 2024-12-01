@@ -1,4 +1,3 @@
-const request = require("supertest");
 const app = require("./index");
 const mysql = require("mysql2");
 const bcrypt = require("bcrypt");

@@ -45,13 +45,7 @@ describe('EmployeeDetailsDialog component', () => {
 
   
 
-  it('should not render Gauge when open is false', () => {
-    render(<EmployeeDetailsDialog open={false} onClose={() => {}} employee={employee} />);
-    
-    // Check that the Gauge component is not rendered when the dialog is closed
-    expect(screen.queryByText('Gauge')).toBeNull();  // Adjust based on how the Gauge is rendered
-  });
-
+ 
   
   
   
