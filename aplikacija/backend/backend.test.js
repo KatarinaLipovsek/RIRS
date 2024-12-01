@@ -1,6 +1,8 @@
 const app = require("./index");
 const mysql = require("mysql2");
 const bcrypt = require("bcrypt");
+const request = require("supertest");
+
 
 // Mock MySQL2 module
 jest.mock("mysql2", () => ({
