@@ -124,6 +124,12 @@ app.put("/api/entries/:id", (req, res) => {
 
 app.get("/api/entries/month", (req, res) => {
   const { employeeId, month } = req.query;
+
+  // Check if employeeId is provided
+  if (!employeeId) {
+    return res.status(400).json({ message: "Employee ID is required" });
+  }
+
   console.log("Fetching total hours for month:", month, "and employee ID:", employeeId);
 
   // Modify the query to select all employee data and the total worked hours
@@ -141,10 +147,8 @@ app.get("/api/entries/month", (req, res) => {
   const queryParams = [month];
 
   // Check if employeeId is provided, and if so, add it to the query
-  if (employeeId) {
-    query += " AND employee_id = ?";
-    queryParams.push(employeeId);
-  }
+  query += " AND employee_id = ?";  // Now we always include the employee_id condition
+  queryParams.push(employeeId);
 
   query += " GROUP BY work_entries.employee_id";  // Ensure the query groups by employee_id
 
@@ -165,7 +169,11 @@ app.get("/api/entries/month", (req, res) => {
   });
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+
+if (process.env.NODE_ENV !== 'test') {
+  // Only start the server if we're not in test mode
+  app.listen(5000, () => {
+    console.log("Server running on http://localhost:5000");
+  });
+}
+module.exports = app; // Export app for use in tests
