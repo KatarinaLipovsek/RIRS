@@ -3,7 +3,6 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import EmployeeDetailsDialog from '../components/EmployeeDetailsDialog';
 
 // Mock the Gauge component from '@mui/x-charts/Gauge' to avoid unnecessary rendering
-jest.mock('@mui/x-charts/Gauge', () => () => <div>Gauge</div>);
 
 describe('EmployeeDetailsDialog component', () => {
   const employee = {
