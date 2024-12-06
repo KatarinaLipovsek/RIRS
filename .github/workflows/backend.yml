@@ -1,7 +1,5 @@
-# Ime pipeline-a za backend
 name: Backend CI
 
-# Dogodki, ki sprožijo workflow (push in pull request na glavno vejo)
 on:
   push:
     branches:
@@ -31,22 +29,30 @@ jobs:
         key: ${{ runner.os }}-backend-${{ hashFiles('aplikacija/backend/package-lock.json') }}  # Ključ za cache
         restore-keys: |
           ${{ runner.os }}-backend-
-      
 
     - name: Install dependencies  # Namestitev odvisnosti
       run: |
         cd aplikacija/backend
         npm ci
 
-    - name: Upload backend artifacts  # Naložitev artefaktov za backend
+    - name: Build backend application  # Gradnja backenda (če je potrebna)
+      run: |
+        cd aplikacija/backend
+        npm run build  # Če uporabljaš gradnjo, prilagodi, če imaš drugačen ukaz
+
+    - name: Upload backend build artifacts  # Naložitev gradbenih artefaktov
       uses: actions/upload-artifact@v4
       with:
         name: backend-build  # Ime artefakta
+        path: aplikacija/backend/build/  # Pot do gradbenih rezultatov (prilagodi glede na tvojo strukturo)
+
+    - name: Upload backend artifacts  # Naložitev artefaktov za backend
+      uses: actions/upload-artifact@v4
+      with:
+        name: backend-code  # Ime artefakta
         path: |
           aplikacija/backend/  
-          aplikacija/backend/node_modules/  
-        # Pot do celotne kode
-        # Nameščene odvisnosti
+          aplikacija/backend/node_modules/  # Pot do celotne kode in nameščenih odvisnosti
 
   # Job za testiranje backenda
   test-backend:
@@ -74,7 +80,7 @@ jobs:
       run: |
         cd aplikacija/backend
         npm install
-      
+
     - name: Run tests with coverage  # Izvajanje testov s pokritostjo
       run: |
         cd aplikacija/backend
