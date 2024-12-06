@@ -27,17 +27,15 @@ jobs:
     - name: Cache node_modules  # Caching odvisnosti
       uses: actions/cache@v3
       with:
-        path: aplikacija/node_modules # Pot do mape node_modules
-        key: ${{ runner.os }}-frontend-${{ hashFiles('aplikacija/package-lock.json') }} # Ključ za cache
+        path: aplikacija/node_modules  # Pot do mape node_modules
+        key: ${{ runner.os }}-frontend-${{ hashFiles('aplikacija/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-frontend-
-      
 
     - name: Install dependencies  # Namestitev odvisnosti
       run: |
         cd aplikacija
         npm ci
-      # Če node_modules že obstaja, npm samo preveri skladnost z datotekama package.json in package-lock.json.
 
     - name: Build application  # Gradnja aplikacije
       run: |
@@ -47,8 +45,8 @@ jobs:
     - name: Upload build artifacts  # Naložitev gradbenih artefaktov
       uses: actions/upload-artifact@v4
       with:
-        name: frontend-build
-        path: aplikacija/build/
+        name: dist  # Ime artefakta
+        path: aplikacija/dist/  # Gradbeni rezultati za distribucijo
 
   # Job za testiranje frontenda
   test-frontend:
@@ -56,10 +54,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout code  # Kloniranje repozitorija
       uses: actions/checkout@v3
 
-    - name: Setup Node.js
+    - name: Setup Node.js  # Namestitev Node.js okolja
       uses: actions/setup-node@v3
       with:
         node-version: 20
@@ -67,24 +65,23 @@ jobs:
     - name: Cache node_modules  # Caching odvisnosti
       uses: actions/cache@v3
       with:
-        path: aplikacija/node_modules
+        path: aplikacija/frontend/node_modules
         key: ${{ runner.os }}-frontend-${{ hashFiles('aplikacija/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-frontend-
 
-    - name: Install dependencies
+    - name: Install dependencies  # Namestitev odvisnosti
       run: |
         cd aplikacija
         npm install
       
-
-    - name: Run tests with coverage
+    - name: Run tests with coverage  # Izvajanje testov s pokritostjo
       run: |
         cd aplikacija
         npm run test:ci
 
-    - name: Upload coverage report
+    - name: Upload coverage report  # Naložitev poročila o pokritosti kode
       uses: actions/upload-artifact@v4
       with:
-        name: frontend-coverage
-        path: aplikacija/coverage/
+        name: frontend-coverage  # Ime artefakta
+        path: aplikacija/coverage/  # Pot do poročila o pokritosti kode
