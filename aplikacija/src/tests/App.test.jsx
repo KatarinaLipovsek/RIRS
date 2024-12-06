@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import App from "../App";
 
-// Mock components that are used in App to focus on navigation and state management
+// Mock komponent
 jest.mock("../components/Header", () => () => <div>Header</div>);
 jest.mock("../components/EmployeeEntryForm", () => () => <div>EmployeeEntryForm</div>);
 jest.mock("../components/EditEntryForm", () => () => <div>EditEntryForm</div>);
@@ -14,22 +14,19 @@ jest.mock("../components/LoginForm", () => ({ onLogin }) => (
 jest.mock("../components/EmployeeHoursTable", () => () => <div>EmployeeHoursTable</div>);
 jest.mock("../components/Overview", () => () => <div>Overview</div>);
 
-describe("App component", () => {
-  it("should render login view initially", () => {
-    render(<App />); // No need for Router wrapper here
+describe("App", () => {
+  it("na zacetku prikaze login view", () => {
+    render(<App />); 
 
-    // Check if the login form is displayed by checking for the Login button
     const loginButton = screen.getByText("Login");
     expect(loginButton).not.toBeNull();
   });
 
-  it("should navigate to employee entry form after login", async () => {
-    render(<App />); // No need for Router wrapper here
+  it("po loginu preusmeritev na employee stran", async () => {
+    render(<App />); 
 
-    // Click the login button
     fireEvent.click(screen.getByText("Login"));
 
-    // Wait for the EmployeeEntryForm to render after login
     await waitFor(() => {
       const employeeEntryForm = screen.queryByText("EmployeeEntryForm");
       expect(employeeEntryForm).not.toBeNull();

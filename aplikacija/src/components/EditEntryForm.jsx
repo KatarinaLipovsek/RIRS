@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { TextField, Button, Container, Typography, Box } from "@mui/material";
+import { TextField, Container, Typography, Box } from "@mui/material";
 import axios from "axios";
 
 const EditEntryForm = ({ entryId }) => {
@@ -83,15 +83,22 @@ const EditEntryForm = ({ entryId }) => {
                         multiline
                         rows={4}
                     />
-                    <Button
+                    <button
                         type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        sx={{ mt: 2}}
+                        style={{
+                            width: "100%", 
+                            padding: "10px",
+                            backgroundColor: "#1976d2",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "4px",
+                            fontSize: "16px",
+                            cursor: "pointer",
+                            marginTop: "16px",
+                        }}
                     >
                         Shrani
-                    </Button>
+                    </button>
                 </form>
             </Box>
         </Container>

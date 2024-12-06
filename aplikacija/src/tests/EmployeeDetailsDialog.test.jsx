@@ -2,9 +2,9 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import EmployeeDetailsDialog from '../components/EmployeeDetailsDialog';
 
-// Mock the Gauge component from '@mui/x-charts/Gauge' to avoid unnecessary rendering
 
-describe('EmployeeDetailsDialog component', () => {
+describe('EmployeeDetailsDialog', () => {
+
   const employee = {
     name: 'John Doe',
     id: '123',
@@ -13,31 +13,22 @@ describe('EmployeeDetailsDialog component', () => {
   };
 
   
-
-  it('should not render the dialog when open is false', () => {
+  it('ne sme odpreti dialog okna ko je open false', () => {
     render(<EmployeeDetailsDialog open={false} onClose={() => {}} employee={employee} />);
     const dialogTitle = screen.queryByText('Podrobnosti zaposlenega');
     expect(dialogTitle).toBeNull();
   });
 
-  it('should not render employee details when employee prop is null', () => {
+  it('ne sme prikazovati podrobnosti zaposlenega, ko ta ni dolocen', () => {
     render(<EmployeeDetailsDialog open={true} onClose={() => {}} employee={null} />);
     
-    // Check that the employee's details are not displayed
     expect(screen.queryByText('Ime:')).toBeNull();
     expect(screen.queryByText('ID zaposlenega:')).toBeNull();
     expect(screen.queryByText('Email:')).toBeNull();
     expect(screen.queryByText('Št. oddelanih ur:')).toBeNull();
   });
   
-  it('should not render the dialog when open is false', () => {
-    render(<EmployeeDetailsDialog open={false} onClose={() => {}} employee={employee} />);
-    
-    // Ensure the dialog title is not present when the dialog is closed
-    const dialogTitle = screen.queryByText('Podrobnosti zaposlenega');
-    expect(dialogTitle).toBeNull();
-  });
-  
+ 
   
 
   

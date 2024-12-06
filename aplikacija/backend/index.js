@@ -1,11 +1,11 @@
 const express = require("express");
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
-const cors = require("cors"); // Import the CORS middleware
+const cors = require("cors"); 
 const bcrypt = require('bcrypt');
 
 // Load environment variables from .env file
-dotenv.config({ path: "../.env" }); // Adjust path if necessary
+dotenv.config({ path: "../.env" });
 
 // Initialize Express app
 const app = express();
@@ -52,10 +52,9 @@ app.get("/api/employees", (req, res) => {
 
 // Login route
 app.post("/api/login", async (req, res) => {
-  const { username, password } = req.body; // Correctly destructuring username and password
-  console.log("Login attempt:", { username }); // Logging the username correctly
+  const { username, password } = req.body; 
+  console.log("Login attempt:", { username }); 
 
-  // Fetch the user by username
   const query = "SELECT * FROM employees WHERE username = ?";
   db.query(query, [username], async (err, results) => {
       if (err) {
@@ -70,12 +69,11 @@ app.post("/api/login", async (req, res) => {
       const user = results[0];
       console.log("Fetched user:", user);
 
-      // Compare the entered password with the hashed password in the database
       const match = await bcrypt.compare(password, user.password);
       
       if (match) {
           console.log("Login successful for user:", user.username);
-          return res.json({ success: true, user }); // Return the user object correctly
+          return res.json({ success: true, user }); 
       } else {
           console.warn("Invalid credentials: Incorrect password");
           return res.status(401).json({ success: false, message: "Invalid credentials" });
@@ -89,7 +87,7 @@ app.post("/api/login", async (req, res) => {
 
 // Get work entries for a specific employee
 app.get("/api/entries", (req, res) => {
-  const employeeId = req.query.employeeId; // Get employeeId from query parameters
+  const employeeId = req.query.employeeId; 
   console.log("Fetching entries for employee ID:", employeeId);
   const query = "SELECT * FROM work_entries WHERE employee_id = ?";
   
@@ -99,7 +97,7 @@ app.get("/api/entries", (req, res) => {
       return res.status(500).json({ error: "Failed to fetch entries" });
     }
     console.log("Fetched entries:", results);
-    res.json(results); // Return the array of entries
+    res.json(results); 
   });
 });
 
@@ -125,14 +123,12 @@ app.put("/api/entries/:id", (req, res) => {
 app.get("/api/entries/month", (req, res) => {
   const { employeeId, month } = req.query;
 
-  // Check if employeeId is provided
   if (!employeeId) {
     return res.status(400).json({ message: "Employee ID is required" });
   }
 
   console.log("Fetching total hours for month:", month, "and employee ID:", employeeId);
 
-  // Modify the query to select all employee data and the total worked hours
   let query = `
     SELECT 
       employees.*,  -- Select all columns from the employees table
@@ -146,11 +142,11 @@ app.get("/api/entries/month", (req, res) => {
   `;
   const queryParams = [month];
 
-  // Check if employeeId is provided, and if so, add it to the query
-  query += " AND employee_id = ?";  // Now we always include the employee_id condition
+  // Check if employeeId is provided
+  query += " AND employee_id = ?";  
   queryParams.push(employeeId);
 
-  query += " GROUP BY work_entries.employee_id";  // Ensure the query groups by employee_id
+  query += " GROUP BY work_entries.employee_id";  
 
   db.query(query, queryParams, (err, results) => {
     if (err) {
@@ -158,22 +154,19 @@ app.get("/api/entries/month", (req, res) => {
       return res.status(500).json({ error: "Failed to fetch entries" });
     }
 
-    // If results are empty, send a message indicating no data found
     if (results.length === 0) {
       return res.status(404).json({ message: "No entries found for the given criteria" });
     }
 
-    // The result now includes all columns from employees and total worked hours
     console.log("Results:", results);
-    res.json(results);  // Send the full results with employee data and total hours
+    res.json(results);  
   });
 });
 
 
 if (process.env.NODE_ENV !== 'test') {
-  // Only start the server if we're not in test mode
   app.listen(5000, () => {
     console.log("Server running on http://localhost:5000");
   });
 }
-module.exports = app; // Export app for use in tests
+module.exports = app; 

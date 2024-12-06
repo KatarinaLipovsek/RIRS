@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const request = require("supertest");
 
 
-// Mock MySQL2 module
 jest.mock("mysql2", () => ({
   createConnection: jest.fn().mockReturnValue({
     connect: jest.fn(),
@@ -13,7 +12,6 @@ jest.mock("mysql2", () => ({
   }),
 }));
 
-// Mock bcrypt to return true for password comparison
 jest.mock("bcrypt", () => ({
   compare: jest.fn().mockResolvedValue(true),
 }));
@@ -22,20 +20,20 @@ describe("Employee API Tests", () => {
   let mockQuery;
 
   beforeEach(() => {
-    // Reset any mock before each test to avoid interference between tests
-    mockQuery = mysql.createConnection().query; // Get the query mock
+    // Reset mocke pred vsakim testom
+    mockQuery = mysql.createConnection().query; 
     mockQuery.mockReset();
   });
 
   
   describe("POST /api/login", () => {
-    it("ispesen login s pravilnimi podatki", async () => {
+    it("uspesen login s pravilnimi podatki", async () => {
       const mockUser = { id: 1, username: "johndoe", password: "hashedpassword" };
       mockQuery.mockImplementation((query, params, callback) => {
-        callback(null, [mockUser]);  // Simulate successful user lookup
+        callback(null, [mockUser]);  
       });
 
-      bcrypt.compare.mockResolvedValue(true);  // Simulate password match
+      bcrypt.compare.mockResolvedValue(true);  
 
       const response = await request(app)
         .post("/api/login")
@@ -48,7 +46,7 @@ describe("Employee API Tests", () => {
 
     it("mora vrniti error, ce uporabnik ni najden", async () => {
       mockQuery.mockImplementation((query, params, callback) => {
-        callback(null, []);  // Simulate no user found
+        callback(null, []);  
       });
 
       const response = await request(app)
@@ -62,10 +60,10 @@ describe("Employee API Tests", () => {
     it("mora vrniti error, ce je nepravilno geslo", async () => {
       const mockUser = { id: 1, username: "johndoe", password: "hashedpassword" };
       mockQuery.mockImplementation((query, params, callback) => {
-        callback(null, [mockUser]);  // Simulate successful user lookup
+        callback(null, [mockUser]);  
       });
 
-      bcrypt.compare.mockResolvedValue(false);  // Simulate password mismatch
+      bcrypt.compare.mockResolvedValue(false);  
 
       const response = await request(app)
         .post("/api/login")
@@ -81,6 +79,17 @@ describe("Employee API Tests", () => {
  
 
   describe("GET /api/entries", () => {
+
+    it("vrne podatke o delu", async () => {
+      mockQuery.mockImplementation((query, params, callback) => {
+        callback(new Error("Database error"));  
+      });
+
+      const response = await request(app).get("/api/entries").query({ employeeId: 1 });
+
+      expect(response.status).toBe(500);
+      expect(response.body.error).toBe("Failed to fetch entries");
+    });
     
     it("vrne podatke o delu za dolocenega zaposlenega", async () => {
       const mockEntries = [
@@ -88,7 +97,7 @@ describe("Employee API Tests", () => {
       ];
 
       mockQuery.mockImplementation((query, params, callback) => {
-        callback(null, mockEntries);  // Simulate fetching entries
+        callback(null, mockEntries);  
       });
 
       const response = await request(app).get("/api/entries").query({ employeeId: 1 });
@@ -99,16 +108,7 @@ describe("Employee API Tests", () => {
       expect(response.body[0]).toHaveProperty("hours_worked");
     });
 
-    it("mora pridobiti podatke o delu", async () => {
-      mockQuery.mockImplementation((query, params, callback) => {
-        callback(new Error("Database error"));  // Simulate a database error
-      });
-
-      const response = await request(app).get("/api/entries").query({ employeeId: 1 });
-
-      expect(response.status).toBe(500);
-      expect(response.body.error).toBe("Failed to fetch entries");
-    });
+    
   });
 
   describe("GET /api/entries/month", () => {
@@ -118,7 +118,8 @@ describe("Employee API Tests", () => {
       expect(response.status).toBe(400);
       expect(response.body.message).toBe("Employee ID is required");
     });
-    it("mora pridobiti ure za mesec", async () => {
+
+    it("mora pridobiti oddlenae ure za mesec za zaposlenega", async () => {
       const mockResults = [
         {
           id: 1,
@@ -128,7 +129,7 @@ describe("Employee API Tests", () => {
       ];
 
       mockQuery.mockImplementation((query, params, callback) => {
-        callback(null, mockResults);  // Simulate fetching total hours
+        callback(null, mockResults); 
       });
 
       const response = await request(app).get("/api/entries/month").query({ employeeId: 1, month: "12" });
@@ -138,9 +139,9 @@ describe("Employee API Tests", () => {
       expect(response.body[0]).toHaveProperty("total_hours");
     });
 
-    it("mora vrniti error ce ni najdenih vnosov za mesec", async () => {
+    it("mora vrniti error, ce ni najdenih vnosov za izbran mesec", async () => {
       mockQuery.mockImplementation((query, params, callback) => {
-        callback(null, []);  // Simulate no entries found
+        callback(null, []);  
       });
 
       const response = await request(app).get("/api/entries/month").query({ employeeId: 1, month: "12" });
@@ -149,9 +150,9 @@ describe("Employee API Tests", () => {
       expect(response.body.message).toBe("No entries found for the given criteria");
     });
 
-    it("mora obravnavati napake za vnose po mesecih", async () => {
+    it("mora obravnavati napake po mesecih", async () => {
       mockQuery.mockImplementation((query, params, callback) => {
-        callback(new Error("Database error"));  // Simulate a database error
+        callback(new Error("Database error")); 
       });
 
       const response = await request(app).get("/api/entries/month").query({ employeeId: 1, month: "12" });
@@ -168,7 +169,7 @@ describe("Employee API Tests", () => {
         ];
   
         mockQuery.mockImplementation((query, params, callback) => {
-          callback(null, mockEntries);  // Simulate fetching entries for the month
+          callback(null, mockEntries); 
         });
   
         const response = await request(app).get("/api/entries/month").query({ employeeId: 1, month: "12" });
