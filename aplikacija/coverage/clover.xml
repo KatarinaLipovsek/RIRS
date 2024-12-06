@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1733142690840" clover="3.2.0">
-  <project timestamp="1733142690840" name="All files">
-    <metrics statements="148" coveredstatements="103" conditionals="43" coveredconditionals="26" methods="30" coveredmethods="20" elements="221" coveredelements="149" complexity="0" loc="148" ncloc="148" packages="3" files="6" classes="6"/>
+<coverage generated="1733487074041" clover="3.2.0">
+  <project timestamp="1733487074042" name="All files">
+    <metrics statements="177" coveredstatements="131" conditionals="54" coveredconditionals="36" methods="36" coveredmethods="25" elements="267" coveredelements="192" complexity="0" loc="177" ncloc="177" packages="3" files="7" classes="7"/>
     <package name="backend">
-      <metrics statements="87" coveredstatements="61" conditionals="22" coveredconditionals="14" methods="12" coveredmethods="6"/>
+      <metrics statements="98" coveredstatements="72" conditionals="29" coveredconditionals="21" methods="14" coveredmethods="8"/>
       <file name="index.js" path="C:\Users\katar\OneDrive\Dokumenti\RIRS vaje\vaja_testiranje\RIRS\aplikacija\backend\index.js">
-        <metrics statements="87" coveredstatements="61" conditionals="22" coveredconditionals="14" methods="12" coveredmethods="6"/>
+        <metrics statements="98" coveredstatements="72" conditionals="29" coveredconditionals="21" methods="14" coveredmethods="8"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -89,36 +89,67 @@
         <line num="158" count="1" type="stmt"/>
         <line num="161" count="2" type="stmt"/>
         <line num="162" count="2" type="stmt"/>
-        <line num="167" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="168" count="0" type="stmt"/>
-        <line num="169" count="0" type="stmt"/>
-        <line num="172" count="1" type="stmt"/>
+        <line num="166" count="1" type="stmt"/>
+        <line num="167" count="3" type="stmt"/>
+        <line num="169" count="3" type="cond" truecount="5" falsecount="0"/>
+        <line num="170" count="1" type="stmt"/>
+        <line num="176" count="2" type="stmt"/>
+        <line num="181" count="2" type="stmt"/>
+        <line num="182" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="183" count="1" type="stmt"/>
+        <line num="184" count="1" type="stmt"/>
+        <line num="187" count="1" type="stmt"/>
+        <line num="188" count="1" type="stmt"/>
+        <line num="194" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="195" count="0" type="stmt"/>
+        <line num="196" count="0" type="stmt"/>
+        <line num="199" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src">
-      <metrics statements="16" coveredstatements="11" conditionals="17" coveredconditionals="9" methods="4" coveredmethods="2"/>
+      <metrics statements="16" coveredstatements="11" conditionals="19" coveredconditionals="10" methods="4" coveredmethods="2"/>
       <file name="App.jsx" path="C:\Users\katar\OneDrive\Dokumenti\RIRS vaje\vaja_testiranje\RIRS\aplikacija\src\App.jsx">
-        <metrics statements="16" coveredstatements="11" conditionals="17" coveredconditionals="9" methods="4" coveredmethods="2"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="11" count="3" type="stmt"/>
+        <metrics statements="16" coveredstatements="11" conditionals="19" coveredconditionals="10" methods="4" coveredmethods="2"/>
+        <line num="11" count="1" type="stmt"/>
         <line num="12" count="3" type="stmt"/>
         <line num="13" count="3" type="stmt"/>
         <line num="14" count="3" type="stmt"/>
-        <line num="16" count="3" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="cond" truecount="0" falsecount="4"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="23" count="3" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="24" count="3" type="stmt"/>
         <line num="25" count="1" type="stmt"/>
-        <line num="28" count="3" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
         <line num="30" count="0" type="stmt"/>
-        <line num="33" count="3" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="34" count="3" type="stmt"/>
       </file>
     </package>
     <package name="src.components">
-      <metrics statements="45" coveredstatements="31" conditionals="4" coveredconditionals="3" methods="14" coveredmethods="12"/>
+      <metrics statements="63" coveredstatements="48" conditionals="6" coveredconditionals="5" methods="18" coveredmethods="15"/>
+      <file name="AddDopustForm.jsx" path="C:\Users\katar\OneDrive\Dokumenti\RIRS vaje\vaja_testiranje\RIRS\aplikacija\src\components\AddDopustForm.jsx">
+        <metrics statements="17" coveredstatements="17" conditionals="2" coveredconditionals="2" methods="3" coveredmethods="3"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="7" count="9" type="stmt"/>
+        <line num="16" count="9" type="stmt"/>
+        <line num="17" count="6" type="stmt"/>
+        <line num="18" count="6" type="stmt"/>
+        <line num="24" count="9" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="33" count="2" type="stmt"/>
+        <line num="34" count="2" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="46" count="1" type="stmt"/>
+        <line num="47" count="1" type="stmt"/>
+        <line num="51" count="9" type="stmt"/>
+        <line num="109" count="2" type="stmt"/>
+      </file>
       <file name="EditEntryForm.jsx" path="C:\Users\katar\OneDrive\Dokumenti\RIRS vaje\vaja_testiranje\RIRS\aplikacija\src\components\EditEntryForm.jsx">
         <metrics statements="23" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="3"/>
         <line num="6" count="1" type="stmt"/>
@@ -151,12 +182,13 @@
         <line num="6" count="2" type="stmt"/>
       </file>
       <file name="Header.jsx" path="C:\Users\katar\OneDrive\Dokumenti\RIRS vaje\vaja_testiranje\RIRS\aplikacija\src\components\Header.jsx">
-        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="4"/>
+        <metrics statements="6" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="4"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="3" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
-        <line num="15" count="1" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
       </file>
       <file name="LoginForm.jsx" path="C:\Users\katar\OneDrive\Dokumenti\RIRS vaje\vaja_testiranje\RIRS\aplikacija\src\components\LoginForm.jsx">
         <metrics statements="15" coveredstatements="12" conditionals="2" coveredconditionals="1" methods="4" coveredmethods="4"/>

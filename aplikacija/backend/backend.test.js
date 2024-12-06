@@ -180,6 +180,60 @@ describe("Employee API Tests", () => {
       });
        
     });
+
+    describe("POST /api/dopust", () => {
+
+      it("mora pravilno vnesti podatke", async () => {
+        const mockInsertResult = { insertId: 1 }; 
+    
+        mockQuery.mockImplementation((query, params, callback) => {
+          callback(null, mockInsertResult); 
+        });
+    
+        const response = await request(app)
+          .post("/api/dopust")
+          .send({
+            startDate: "2024-12-01",
+            endDate: "2024-12-10",
+            reason: "Vacation",
+          });
+    
+        expect(response.status).toBe(201);
+        expect(response.body.message).toBe("'Dopust' entry added successfully");
+
+      });
+    
+      it("mora vrniti napako, ce pride do tezav s povezavo na bazo", async () => {
+        mockQuery.mockImplementation((query, params, callback) => {
+          callback(new Error("Database error")); 
+        });
+    
+        const response = await request(app)
+          .post("/api/dopust")
+          .send({
+            startDate: "2024-12-01",
+            endDate: "2024-12-10",
+            reason: "Vacation",
+          });
+    
+        expect(response.status).toBe(500);
+        expect(response.body.error).toBe("Failed to insert 'dopust' entry");
+      });
+    
+      it("mora vrniti napako zaradi manjkajocih podatkov", async () => {
+        const response = await request(app)
+          .post("/api/dopust")
+          .send({
+            startDate: "2024-12-01",
+            
+          });
+    
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe("Missing required fields");
+      });
+    
+    });
+    
   });
 
     

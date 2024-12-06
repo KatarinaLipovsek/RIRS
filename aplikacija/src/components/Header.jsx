@@ -12,6 +12,9 @@ const Header = ({ onNavigate }) => {
         <Button color="inherit" onClick={() => onNavigate('vnesiUre')}>
           Vnesi ure
         </Button>
+        <Button color="inherit" onClick={() => onNavigate('dopust')}>
+          Dopust
+        </Button>
         <Button color="inherit" onClick={() => onNavigate('mojaEvidenca')}>
           Moja evidenca
         </Button>

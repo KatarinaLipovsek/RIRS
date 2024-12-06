@@ -163,6 +163,33 @@ app.get("/api/entries/month", (req, res) => {
   });
 });
 
+app.post("/api/dopust", (req, res) => {
+  const { startDate, endDate, reason } = req.body;
+
+  if (!startDate || !endDate || !reason) {
+    return res.status(400).json({
+      error: "Missing required fields",
+    });
+  }
+
+
+    const query = `
+  INSERT INTO dopust (employeeId, \`from\`, \`to\`, reason, status)
+  VALUES (3, ?, ?, ?, 0)
+`;
+
+  db.query(query, [ startDate, endDate, reason], (err, result) => {
+    if (err) {
+      console.error("Failed to insert 'dopust' entry:", err);
+      return res.status(500).json({ error: "Failed to insert 'dopust' entry" });
+    }
+
+    console.log("'Dopust' entry added successfully:", result);
+    res.status(201).json({ message: "'Dopust' entry added successfully", id: result.insertId });
+  });
+});
+
+
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(5000, () => {
