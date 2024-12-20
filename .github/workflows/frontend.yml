@@ -1,7 +1,5 @@
-# Ime pipeline-a za frontend
 name: Frontend CI
 
-# Dogodki, ki sprožijo workflow (push in pull request na glavno vejo)
 on:
   push:
     branches:
@@ -13,75 +11,91 @@ on:
 jobs:
   # Job za gradnjo frontenda
   build-frontend:
-    runs-on: ubuntu-latest  # Okolje, v katerem bo job tekel
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code  # Kloniranje repozitorija
+    - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Setup Node.js  # Namestitev Node.js okolja
+    - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
         node-version: 20
 
-    - name: Cache node_modules  # Caching odvisnosti
+    - name: Cache node_modules
       uses: actions/cache@v3
       with:
-        path: aplikacija/node_modules  # Pot do mape node_modules
+        path: aplikacija/node_modules
         key: ${{ runner.os }}-frontend-${{ hashFiles('aplikacija/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-frontend-
 
-    - name: Install dependencies  # Namestitev odvisnosti
+    - name: Install dependencies
       run: |
         cd aplikacija
         npm ci
 
-    - name: Build application  # Gradnja aplikacije
+    - name: Build application
       run: |
         cd aplikacija
         npm run build
 
-    - name: Upload build artifacts  # Naložitev gradbenih artefaktov
+    - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: dist  # Ime artefakta
-        path: aplikacija/dist/  # Gradbeni rezultati za distribucijo
+        name: dist
+        path: aplikacija/dist/
 
   # Job za testiranje frontenda
   test-frontend:
-    needs: build-frontend  # Testiranje se izvede po uspešni gradnji
+    needs: build-frontend
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code  # Kloniranje repozitorija
+    - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Setup Node.js  # Namestitev Node.js okolja
+    - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
         node-version: 20
 
-    - name: Cache node_modules  # Caching odvisnosti
-      uses: actions/cache@v3
-      with:
-        path: aplikacija/frontend/node_modules
-        key: ${{ runner.os }}-frontend-${{ hashFiles('aplikacija/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-frontend-
-
-    - name: Install dependencies  # Namestitev odvisnosti
+    - name: Install dependencies
       run: |
         cd aplikacija
         npm install
-      
-    - name: Run tests with coverage  # Izvajanje testov s pokritostjo
+
+    - name: Run tests with coverage
       run: |
         cd aplikacija
         npm run test:ci
 
-    - name: Upload coverage report  # Naložitev poročila o pokritosti kode
+    - name: Upload coverage report
       uses: actions/upload-artifact@v4
       with:
-        name: frontend-coverage  # Ime artefakta
-        path: aplikacija/coverage/  # Pot do poročila o pokritosti kode
+        name: frontend-coverage
+        path: aplikacija/coverage/
+
+  # Job za deploy na Firebase
+  deploy-to-firebase:
+    needs: test-frontend
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Firebase CLI
+      uses: wzieba/Firebase-Action@v2
+      with:
+        firebase_cli_version: 'latest'
+
+    - name: Authenticate to Firebase
+      env:
+        FIREBASE_AUTH_TOKEN: ${{ secrets.FIREBASE_ROCNO }}
+      run: firebase login --token $FIREBASE_ROCNO
+
+    - name: Deploy to Firebase Hosting
+      run: |
+        cd aplikacija
+        firebase deploy --only hosting

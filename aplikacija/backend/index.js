@@ -189,6 +189,32 @@ app.post("/api/dopust", (req, res) => {
   });
 });
 
+app.post("/api/bolniska", (req, res) => {
+  const { startDate, endDate, reason } = req.body;
+
+  if (!startDate || !endDate ) {
+    return res.status(400).json({
+      error: "Missing required fields",
+    });
+  }
+
+
+    const query = `
+  INSERT INTO bolniska (employeeId, \`from\`, \`to\`, reason, status)
+  VALUES (3, ?, ?, 0, 0)
+`;
+
+  db.query(query, [ startDate, endDate, reason], (err, result) => {
+    if (err) {
+      console.error("Failed to insert 'bolniska' entry:", err);
+      return res.status(500).json({ error: "Failed to insert 'bolniska' entry" });
+    }
+
+    console.log("'bolniska' entry added successfully:", result);
+    res.status(201).json({ message: "'bolniska' entry added successfully", id: result.insertId });
+  });
+});
+
 
 
 if (process.env.NODE_ENV !== 'test') {

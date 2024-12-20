@@ -7,6 +7,8 @@ import LoginForm from "./components/LoginForm";
 import EmployeeHoursTable from "./components/EmployeeHoursTable";
 import Overview from "./components/Overview";
 import AddDopustForm from "./components/AddDopustForm";
+import AddBolniskaForm from "./components/AddBolniskaForm";
+
 
 const App = () => {
   const [currentView, setCurrentView] = useState("login");
@@ -39,6 +41,9 @@ const App = () => {
         {currentView === "vnesiUre" && <EmployeeEntryForm />}
         {currentView === "dopust" && (
           <AddDopustForm employeeId={employeeId} />
+        )}
+        {currentView === "bolniska" && (
+          <AddBolniskaForm employeeId={employeeId} />
         )}
         {currentView === "mojaEvidenca" && (
           <EmployeeHoursTable employeeId={employeeId} onEdit={handleEdit} />
